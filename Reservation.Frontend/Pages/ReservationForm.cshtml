@@ -1,0 +1,32 @@
+﻿@page "reservation-form"
+@model Reservation.Frontend.Pages.ReservationForm
+
+<markdown>
+    # Rezerwacja online na wymianę opon lub usługę klimatyzacji 
+</markdown>
+
+<form action="tyre-change-reservation" method="post" class="container">
+    <div class="row mb-3">
+        <label for="location" class="form-label">Lokalizacja</label>
+        @{ await Html.RenderPartialAsync("_LocationSelectorHtmx", Model); }
+    </div>
+    <div class="row mb-3">
+        <label class="form-label">Data</label>
+        @{ await Html.RenderPartialAsync("_TyreChangeReservationDateHtmx", Model); }
+    </div>
+    <div class="row mb-3">
+        <label class="form-label">Godzina</label>
+        @{ await Html.RenderPartialAsync("_TyreChangeReservationTimeHtmx", Model); }
+    </div>
+    <div class="row mb-3">
+        <label class="form-label">Model</label>
+        <input asp-for="CarModel" type="text" name="CarModel"class="form-control"/>
+    </div>
+    <div class="row">
+        <label class="form-label">Numer rejestracyjny</label>
+        <input asp-for="CarNumber" type="text" name="CarNumber" class="form-control"/>
+    </div>
+    <div class="form-control">
+        <button id="reservationFormBtn" type="sumit" class="btn btn-primary">Zarejestruj się</button>
+    </div>
+</form>

@@ -1,0 +1,11 @@
+﻿@model Reservation.Frontend.Pages.ReservationForm
+@{
+    System.Diagnostics.Debug.Assert(Model != null);
+}
+<select asp-for="ReservationDate"
+        hx-get="/reservation-time"
+        hx-target="#reservationTime"
+        hx-swap="outerHTML"
+        name="ReservationDate"
+        class="form-control">
+</select>
