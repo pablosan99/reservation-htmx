@@ -3,9 +3,12 @@
     System.Diagnostics.Debug.Assert(Model != null);
 }
 <select asp-for="ReservationDate"
-        hx-get="/reservation-time"
-        hx-target="#reservationTime"
+        asp-items="Model.PossibleDates"
+        hx-get
+        hx-page="ReservationForm"
+        hx-page-handler="TimeSlots"
         hx-swap="outerHTML"
-        name="ReservationDate"
+        hx-target="#reservationTime"
+        id="reservationDate"
         class="form-control">
 </select>

@@ -1,8 +1,13 @@
 ﻿@model Reservation.Frontend.Pages.ReservationForm
 
-<select asp-for="Location" asp-items="Model.PossibleLocations" class="form-control form-select"
-        hx-get="@Url.Page("ReservationForm", "Dates")"
-        hx-trigger="#reservationDate"
+<select asp-for="Location"
+        name="Location"
+        asp-items="Model.PossibleLocations" 
+        class="form-select form-select-lg mb-3"
+        hx-get
+        hx-page="ReservationForm"
+        hx-page-handler="Dates"
+        hx-target="#reservationDate"
         hx-swap="outerHTML">
 </select>
         

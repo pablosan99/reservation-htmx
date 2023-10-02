@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http.Json;
+using System.Text.Json;
 using Microsoft.Extensions.Options;
 using Reservation.Backend.Models;
 using Attribute = Reservation.Backend.Models.Attribute;
@@ -7,6 +8,7 @@ namespace Reservation.Backend;
 
 public class ApiClient
 {
+    private static readonly JsonSerializerOptions WebJsonSerializerOptions = new(JsonSerializerDefaults.Web);
     private readonly HttpClient _httpClient;
 
     public ApiClient(HttpClient httpClient, IOptions<ApiClientOptions> options)
@@ -23,8 +25,8 @@ public class ApiClient
             return new List<Location>();
         }
 
-        var content = await response.Content.ReadAsStreamAsync(token);
-        return await JsonSerializer.DeserializeAsync<List<Location>>(content, cancellationToken: token);
+        var content = await response.Content.ReadAsStringAsync(token);
+        return JsonSerializer.Deserialize<List<Location>>(content, WebJsonSerializerOptions);
     }
 
     public async Task<IEnumerable<DayOff>> GetDayOffsForNext30Days(CancellationToken token = default)
@@ -35,7 +37,7 @@ public class ApiClient
             return new List<DayOff>();
         }
         var content = await response.Content.ReadAsStreamAsync(token);
-        var result = await JsonSerializer.DeserializeAsync<List<DayOff>>(content, cancellationToken: token);
+        var result = await JsonSerializer.DeserializeAsync<List<DayOff>>(content, WebJsonSerializerOptions, cancellationToken: token);
         return result ?? new List<DayOff>();
     }
 
@@ -47,7 +49,31 @@ public class ApiClient
             return new List<Attribute>();
         }
         var content = await response.Content.ReadAsStreamAsync(token);
-        var result =  await JsonSerializer.DeserializeAsync<List<Attribute>>(content, cancellationToken: token);
+        var result =  await JsonSerializer.DeserializeAsync<List<Attribute>>(content, WebJsonSerializerOptions, cancellationToken: token);
         return result ?? new List<Attribute>();
+    }
+
+    public async Task<List<TimeSlot>> GetFreeTimeSlotsForTyreChange(TimeSlotRequest request, CancellationToken token = default)
+    {
+        var response = await _httpClient.PostAsync("general/free/free_tyre_change_date_time_by_criteria", JsonContent.Create(request), token);
+        if (!response.IsSuccessStatusCode)
+        {
+            return new List<TimeSlot>();
+        }
+        var content = await response.Content.ReadAsStreamAsync(token);
+        var result =  await JsonSerializer.DeserializeAsync<List<TimeSlot>>(content, WebJsonSerializerOptions, cancellationToken: token);
+        return result ?? new List<TimeSlot>();
+    }
+
+    public async Task<WebReservationResponse> RegisterTyreChange(TyreChangeReservation request, CancellationToken token = default)
+    {
+        var response = await _httpClient.PostAsync("general/reservation/register_tyre_change", JsonContent.Create(request), token);
+        if (!response.IsSuccessStatusCode)
+        {
+            return new WebReservationResponse();
+        }
+        var content = await response.Content.ReadAsStreamAsync(token);
+        var result =  await JsonSerializer.DeserializeAsync<WebReservationResponse>(content, WebJsonSerializerOptions, cancellationToken: token);
+        return result ?? new WebReservationResponse();
     }
 }
