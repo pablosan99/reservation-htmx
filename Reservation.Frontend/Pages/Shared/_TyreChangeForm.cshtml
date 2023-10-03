@@ -1,0 +1,58 @@
+﻿@model Reservation.Frontend.Pages.ReservationForm
+
+<form hx-post hx-page="ReservationForm" hx-page-handler="Submit" hx-trigger="submit" hx-target="#reservationForm" hx-swap="outerHTML"
+      class="form-container needs-validation"
+      _="on htmx:beforeSend set #reservationFormBtn.disabled to 'disabled'">
+    <div class="row">
+        @Html.LabelFor(x => x.Location, new {@class = "form-label"})
+        @{ await Html.RenderPartialAsync("_LocationSelectorHtmx", Model); }
+    </div>
+    <div class="row">
+        @Html.LabelFor(x => x.ReservationDate, new {@class = "form-label"})
+        @{ await Html.RenderPartialAsync("_TyreChangeReservationDateHtmx", Model); }
+    </div>
+    <div class="row">
+        @Html.LabelFor(x => x.ReservationTime, new {@class = "form-label"})
+        @{ await Html.RenderPartialAsync("_TyreChangeReservationTimeHtmx", Model); }
+    </div>
+    <div class="row">
+        <label class="form-label">@Html.LabelFor(x => x.CarModel)</label>
+        <input asp-for="CarModel" type="text" name="CarModel"class="form-control"/>
+        <div class="invalid-feedback">
+            <span asp-validation-for="CarModel"></span>
+        </div>
+    </div>
+    <div class="row">
+        @Html.LabelFor(x => x.CarNumber, new {@class = "form-label"})
+        <input asp-for="CarNumber" type="text" name="CarNumber" class="form-control"/>
+        <div class="invalid-feedback">
+            <span asp-validation-for="CarNumber"></span>
+        </div>
+    </div>
+    <div class="row">
+        @Html.LabelFor(x => x.CarType, new {@class = "form-label"})
+        @{ await Html.RenderPartialAsync("_CarTypeSelector", Model); }
+    </div>
+    <div class="row">
+        @Html.LabelFor(x => x.WheelType, new {@class = "form-label"})
+        @{ await Html.RenderPartialAsync("_WheelTypeSelector", Model); }
+    </div>
+    <div class="row">
+        @Html.LabelFor(x => x.OrderType, new {@class = "form-label"})
+        @{ await Html.RenderPartialAsync("_OrderTypeSelector", Model); }
+    </div>
+    <div class="row mb-3">
+        <label class="form-label">@Html.LabelFor(x => x.DepositNumber)</label>
+        <input asp-for="DepositNumber" type="text" name="DepositNumber"class="form-control"/>
+    </div>
+    <div class="row">
+        <button id="reservationFormBtn" type="submit" class="btn btn-primary">
+            <span class="loading-indicator">
+                <span class="spinner-border spinner-border-sm" role="status"></span>
+                <span class="visually-hidden">Loading...</span>
+            </span>
+            Zarejestruj
+        </button>
+        @Html.AntiForgeryToken()
+    </div>
+</form>

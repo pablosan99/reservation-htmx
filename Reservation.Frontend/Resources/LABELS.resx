@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="CarModel" xml:space="preserve">
+        <value>Model samochodu</value>
+    </data>
+    <data name="Required" xml:space="preserve">
+        <value>Pole {0} jest wymagane!</value>
+    </data>
+    <data name="DepositNumber" xml:space="preserve">
+        <value>Numer depozytu</value>
+    </data>
+    <data name="Location" xml:space="preserve">
+        <value>Lokalizacja</value>
+    </data>
+    <data name="CarNumber" xml:space="preserve">
+        <value>Numer rejestracyjny</value>
+    </data>
+    <data name="CarType" xml:space="preserve">
+        <value>Typ pojazdu</value>
+    </data>
+    <data name="WheelType" xml:space="preserve">
+        <value>Rodzaj felgi</value>
+    </data>
+    <data name="OrderType" xml:space="preserve">
+        <value>Rodzaj zamówienia</value>
+    </data>
+    <data name="ReservationDate" xml:space="preserve">
+        <value>Data rezerwacji</value>
+    </data>
+    <data name="ReservationTime" xml:space="preserve">
+        <value>Godzina rezerwacji</value>
+    </data>
+</root>

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Reservation.Backend;
 using Reservation.Backend.Models;
+using Reservation.Frontend.Resources;
 
 namespace Reservation.Frontend.Pages;
 
@@ -13,6 +14,8 @@ public class ReservationForm : PageModel
     private const string StartTime = "540";
     private const string DateFormat = "yyyy-MM-dd";
     public static string NoFreeReservations = "Brak wolnych rezerwacji";
+    private const string InitialDate = "1970-01-01";
+    private static DateOnly InitialReservationDate = DateOnly.Parse(InitialDate);
     
     public List<SelectListItem> PossibleLocations;
 
@@ -40,29 +43,40 @@ public class ReservationForm : PageModel
     };
     
     [BindProperty(SupportsGet = true), Required]
-    public DateOnly? ReservationDate { get; set; }
+    [Display(Name = "ReservationDate", ResourceType = typeof(LABELS))]
+    public DateOnly? ReservationDate { get; set; } = InitialReservationDate;
     
     [BindProperty(SupportsGet = true), Required]
+    [Display(Name = "ReservationTime", ResourceType = typeof(LABELS))]
     public int? ReservationTime { get; set; }
     
     [BindProperty(SupportsGet = true)]
+    [Display(Name = "DepositNumber", ResourceType = typeof(LABELS))]
     public string? DepositNumber { get; set; }
     
-    [BindProperty(SupportsGet = true), Required]
+    [BindProperty(SupportsGet = true)]
+    [Required(ErrorMessageResourceType = typeof(LABELS), ErrorMessageResourceName = "Required")]
+    [Display(Name = "CarModel", ResourceType = typeof(LABELS))]
     public string? CarModel { get; set; }
     
     [BindProperty(SupportsGet = true), Required]
+    [Display(Name = "CarNumber", ResourceType = typeof(LABELS))]
     public string? CarNumber { get; set; }
 
-    [BindProperty(SupportsGet = true), Required] public int Location { get; set; } = default!;
+    [BindProperty(SupportsGet = true), Required]
+    [Display(Name = "Location", ResourceType = typeof(LABELS))]
+    public int Location { get; set; } = default!;
     
     [BindProperty(SupportsGet = true), Required]
+    [Display(Name = "CarType", ResourceType = typeof(LABELS))]
     public string? CarType { get; set; }
     
     [BindProperty(SupportsGet = true), Required]
+    [Display(Name = "WheelType", ResourceType = typeof(LABELS))]
     public string? WheelType { get; set; }
 
     [BindProperty(SupportsGet = true), Required]
+    [Display(Name = "OrderType", ResourceType = typeof(LABELS))]
     public string? OrderType { get; set; }
 
     private readonly ApiClient client;
@@ -136,21 +150,28 @@ public class ReservationForm : PageModel
 
         return BuildSelectListItems(dictDayOffs, minimalTime);
     }
+
+    private async Task LoadModelAsync()
+    {
+        var locations = await GetLocationsAsync();
+        if (Location == 0)
+        {
+            locations.Insert(0, new SelectListItem("Wybierz lokalizację", "0")
+            {
+                Disabled = true,
+                Selected = true
+            });
+        }
+
+        PossibleLocations = locations;
+
+        await LoadDatesAsync(Location);
+        PossibleHours = await GetPossibleHoursAsync();
+    }
     
     public async Task<IActionResult> OnGet()
     {
-        var locations = await GetLocationsAsync();
-        if (locations.Count > 0)
-        {
-            if (Location == 0)
-            {
-                Location = int.Parse(locations[0].Value);
-            
-            }
-
-            PossibleLocations = locations;
-        }        
-        
+        await LoadModelAsync();
         return Page();
     }
 
@@ -177,13 +198,36 @@ public class ReservationForm : PageModel
 
         return items;
     }
+
+    private async Task LoadDatesAsync(int Location)
+    {
+        PossibleDates = await GetPossibleDatesAsync();
+        if (ReservationDate.Equals(DateOnly.Parse(InitialDate)))
+        {
+            PossibleDates.Insert(0, new SelectListItem("Wybierz Datę", InitialDate)
+            {
+                Disabled = false,
+                Selected = true
+            });
+        }
+        else
+        {
+            DateOnly.TryParse(PossibleDates[0].Value, out var reservationDate);
+            ReservationDate = reservationDate;
+        }
+        PossibleHours = await GetPossibleHoursAsync();
+    }
     
     public async Task<IActionResult> OnGetDates(int Location)
     {
         this.Location = Location;
-        PossibleDates = await GetPossibleDatesAsync();
+        // ReservationDate = InitialReservationDate;
+        // ReservationTime = null;
+        // CarModel = null;
+        // CarNumber = null;
+        await LoadModelAsync();
         
-        return Partial("_TyreChangeReservationDateHtmx", this);
+        return Partial("_TyreChangeForm", this);
     }
 
     public async Task<IActionResult> OnGetTimeSlots(DateOnly ReservationDate)
@@ -194,13 +238,12 @@ public class ReservationForm : PageModel
         return Partial("_TyreChangeReservationTimeHtmx", this);
     }
     
-    
-    
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPostSubmit()
     {
-        if (!this.ModelState.IsValid) 
+        if (!ModelState.IsValid)
         {
-            
+            await LoadModelAsync();
+            return Partial("_TyreChangeForm", this);
         }
         
         var requestModel = new TyreChangeReservation()

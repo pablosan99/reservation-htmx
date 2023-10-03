@@ -1,34 +1,10 @@
-﻿@page "reservation-form"
+﻿@page  "/"
 @model Reservation.Frontend.Pages.ReservationForm
 
 <markdown>
-    ### Rezerwacja online na wymianę opon lub usługę klimatyzacji
+    <div class="h4">Rezerwacja online na wymianę opon lub usługę klimatyzacji</div>
 </markdown>
 
-<div class="border rounded p-2">
-    <form action="@Url.Page("ReservationForm")" method="post" class="container">
-        <div class="row mb-3">
-            <label for="location" class="form-label">Lokalizacja</label>
-            @{ await Html.RenderPartialAsync("_LocationSelectorHtmx", Model); }
-        </div>
-        <div class="row mb-3">
-            <label class="form-label">Data</label>
-            @{ await Html.RenderPartialAsync("_TyreChangeReservationDateHtmx", Model); }
-        </div>
-        <div class="row mb-3">
-            <label class="form-label">Godzina</label>
-            @{ await Html.RenderPartialAsync("_TyreChangeReservationTimeHtmx", Model); }
-        </div>
-        <div class="row mb-3">
-            <label class="form-label">Model</label>
-            <input asp-for="CarModel" type="text" name="CarModel"class="form-control"/>
-        </div>
-        <div class="row mb-3">
-            <label class="form-label">Numer rejestracyjny</label>
-            <input asp-for="CarNumber" type="text" name="CarNumber" class="form-control"/>
-        </div>
-        <div class="row">
-            <button id="reservationFormBtn" type="sumit" class="btn btn-primary">Zarejestruj się !!</button>
-        </div>
-    </form>
+<div class="border rounded p-4" id="reservationForm">
+     @{ await Html.RenderPartialAsync("_TyreChangeForm", Model); }
 </div>

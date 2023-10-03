@@ -1,14 +1,15 @@
 ﻿@model Reservation.Frontend.Pages.ReservationForm
 
 <select asp-for="Location"
-        name="Location"
         asp-items="Model.PossibleLocations" 
-        class="form-select form-select-lg mb-3"
+        class="form-select"
         hx-get
         hx-page="ReservationForm"
         hx-page-handler="Dates"
-        hx-target="#reservationDate"
+        hx-target="#reservationForm"
         hx-swap="outerHTML">
 </select>
-        
+<div class="invalid-feedback">
+    <span asp-validation-for="Location"></span>
+</div>        
 

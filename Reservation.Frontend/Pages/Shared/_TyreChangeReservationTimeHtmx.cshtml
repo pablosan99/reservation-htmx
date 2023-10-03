@@ -4,6 +4,8 @@
     asp-for="ReservationTime"
     asp-items="Model.PossibleHours"
     id="reservationTime"
-    name="ReservationHour"
     class="form-control">
 </select>
+<div class="invalid-feedback">
+    <span asp-validation-for="ReservationTime"></span>
+</div>
