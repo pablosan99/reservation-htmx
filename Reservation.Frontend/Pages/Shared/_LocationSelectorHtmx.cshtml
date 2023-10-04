@@ -1,15 +1,22 @@
 ﻿@model Reservation.Frontend.Pages.ReservationForm
+@{
+    var isDisabled = Model.PossibleLocations.Count == 0;
+}
 
+@Html.LabelFor(x => x.Location, new {@class = "form-label"})
 <select asp-for="Location"
-        asp-items="Model.PossibleLocations" 
+        asp-items="Model.PossibleLocations"
         class="form-select"
         hx-get
         hx-page="ReservationForm"
-        hx-page-handler="Dates"
-        hx-target="#reservationForm"
-        hx-swap="outerHTML">
+        hx-page-handler="LocationChanged"
+        hx-target="#reservationDate"
+        disabled="@isDisabled"
+        hx-swap="innerHTML">
 </select>
-<div class="invalid-feedback">
-    <span asp-validation-for="Location"></span>
-</div>        
-
+@{
+    if (Model is {IsPost: true,Location: 0})
+    {
+        <span asp-validation-for="Location" class="text-danger"></span>
+    }
+}

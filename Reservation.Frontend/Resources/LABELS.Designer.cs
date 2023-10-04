@@ -105,6 +105,15 @@ namespace Reservation.Frontend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pole {0} jest wymagane !!!.
+        /// </summary>
+        public static string LocationGreaterThan0 {
+            get {
+                return ResourceManager.GetString("LocationGreaterThan0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rodzaj zamówienia.
         /// </summary>
         public static string OrderType {

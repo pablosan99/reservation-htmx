@@ -1,17 +1,23 @@
 ﻿@model Reservation.Frontend.Pages.ReservationForm
 @{
     System.Diagnostics.Debug.Assert(Model != null);
+    var isDisabled = Model.PossibleDates.Count == 0;
 }
+@Html.LabelFor(x => x.ReservationDate, new {@class = "form-label"})
 <select asp-for="ReservationDate"
         asp-items="Model.PossibleDates"
         hx-get
         hx-page="ReservationForm"
         hx-page-handler="TimeSlots"
-        hx-swap="outerHTML"
+        hx-swap="innerHTML"
+        hx-include="[name='Location']"
         hx-target="#reservationTime"
-        id="reservationDate"
-        class="form-control">
+        disabled="@isDisabled"
+        class="form-select">
 </select>
-<div class="invalid-feedback">
-    <span asp-validation-for="ReservationDate"></span>
-</div>
+@{
+    if (Model.IsPost)
+    {
+        <span asp-validation-for="ReservationDate" class="text-danger"></span>
+    }
+}

@@ -1,0 +1,10 @@
+﻿@model Reservation.Frontend.Pages.ReservationForm
+
+@Html.LabelFor(x => x.CarModel, new {@class = "form-label"})
+<input asp-for="CarModel" type="text" class="form-control"/>
+@{
+    if (Model.IsPost)
+    {
+        <span asp-validation-for="CarModel" class="text-danger"></span>
+    }
+}

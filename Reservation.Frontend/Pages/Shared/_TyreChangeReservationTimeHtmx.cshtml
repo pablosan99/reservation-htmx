@@ -1,11 +1,19 @@
-﻿@model Reservation.Frontend.Pages.ReservationForm
-
+﻿@using System.Diagnostics
+@model Reservation.Frontend.Pages.ReservationForm
+@{
+    Debug.Assert(Model != null);
+    var isDisabled = Model.PossibleHours.Count == 0;
+}
+@Html.LabelFor(x => x.ReservationTime, new {@class = "form-label"})
 <select
     asp-for="ReservationTime"
     asp-items="Model.PossibleHours"
-    id="reservationTime"
-    class="form-control">
+    class="form-select"
+    disabled="@isDisabled">
 </select>
-<div class="invalid-feedback">
-    <span asp-validation-for="ReservationTime"></span>
-</div>
+@{
+    if (Model.IsPost)
+    {
+        <span asp-validation-for="ReservationTime" class="text-danger"></span>
+    }
+}
