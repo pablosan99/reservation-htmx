@@ -9,13 +9,13 @@
       novalidate
       _="on htmx:beforeSend set #reservationFormBtn.disabled to 'disabled'">
     <div class="row">
-        @{ await Html.RenderPartialAsync("_LocationSelectorHtmx", Model); }
+        @{ await Html.RenderPartialAsync("_LocationSelector", Model); }
     </div>
     <div class="row" id="reservationDate">
-        @{ await Html.RenderPartialAsync("_TyreChangeReservationDateHtmx", Model); }
+        @{ await Html.RenderPartialAsync("_TyreChangeReservationDate", Model); }
     </div>
     <div class="row" id="reservationTime">
-        @{ await Html.RenderPartialAsync("_TyreChangeReservationTimeHtmx", Model); }
+        @{ await Html.RenderPartialAsync("_TyreChangeReservationTime", Model); }
     </div>
     <div class="row">
         @{ await Html.RenderPartialAsync("_CarModel", Model); }

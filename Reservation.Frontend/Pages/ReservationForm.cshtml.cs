@@ -15,6 +15,8 @@ public class ReservationForm : PageModel
     private const string DateFormat = "yyyy-MM-dd";
     public static string NoFreeReservations = "Brak wolnych rezerwacji";
     private const string InitialDate = "1970-01-01";
+    private const string TyreChangeReservationDate = "_TyreChangeReservationDate";
+    private const string TyreChangeReservationTime = "_TyreChangeReservationTime";
     public static DateOnly InitialReservationDate = DateOnly.Parse(InitialDate);
 
     public List<SelectListItem> PossibleLocations = new();
@@ -191,7 +193,7 @@ public class ReservationForm : PageModel
         {
             htmx.WithTrigger("datesLoaded");
         });
-        return Partial("_TyreChangeReservationDateHtmx", this);
+        return Partial(TyreChangeReservationDate, this);
     }
 
     private async Task<List<SelectListItem>> GetPossibleHoursAsync()
@@ -253,7 +255,7 @@ public class ReservationForm : PageModel
         {
             htmx.WithTrigger("allowSubmit");
         });
-        return Partial("_TyreChangeReservationTimeHtmx", this);
+        return Partial(TyreChangeReservationTime, this);
     }
     
     [ValidateAntiForgeryToken]
