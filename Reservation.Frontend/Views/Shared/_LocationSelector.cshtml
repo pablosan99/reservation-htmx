@@ -1,4 +1,4 @@
-﻿@model Reservation.Frontend.Pages.ReservationForm
+﻿@model Reservation.Frontend.Models.TyreChangeReservationFormModel
 @{
     var isDisabled = Model.PossibleLocations.Count == 0;
 }
@@ -8,10 +8,10 @@
         asp-items="Model.PossibleLocations"
         class="form-select"
         hx-get
-        hx-page="ReservationForm"
-        hx-page-handler="LocationChanged"
-        hx-target="#reservationDate"
+        hx-controller="ReservationForm"
+        hx-action="LocationChanged"
         disabled="@isDisabled"
+        hx-target="#date-and-time"
         hx-swap="innerHTML">
 </select>
 @{

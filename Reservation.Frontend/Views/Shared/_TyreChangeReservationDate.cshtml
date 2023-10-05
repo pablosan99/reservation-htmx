@@ -1,4 +1,4 @@
-﻿@model Reservation.Frontend.Pages.ReservationForm
+﻿@model Reservation.Frontend.Models.TyreChangeReservationFormModel
 @{
     System.Diagnostics.Debug.Assert(Model != null);
     var isDisabled = Model.PossibleDates.Count == 0;
@@ -7,11 +7,11 @@
 <select asp-for="ReservationDate"
         asp-items="Model.PossibleDates"
         hx-get
-        hx-page="ReservationForm"
-        hx-page-handler="TimeSlots"
+        hx-controller="ReservationForm"
+        hx-action="TimeSlots"
         hx-swap="innerHTML"
-        hx-include="[name='Location']"
-        hx-target="#reservationTime"
+        hx-include="[name='Location'],[name='ReservationTime']"
+        hx-target="#reservation-time"
         disabled="@isDisabled"
         class="form-select">
 </select>

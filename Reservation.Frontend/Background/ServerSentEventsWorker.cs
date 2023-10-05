@@ -1,5 +1,11 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
 using Lib.AspNetCore.ServerSentEvents;
+using Microsoft.Extensions.Hosting;
 
 namespace Reservation.Frontend.Background;
 

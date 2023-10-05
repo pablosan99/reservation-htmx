@@ -23,11 +23,11 @@ public class Attribute
 
     public string AttrName { get; set; } = default!;
 
-    public string AttrValue { get; set; }
+    public string AttrValue { get; set; } = default!;
 
-    public string AttrDesc { get; set; }
+    public string AttrDesc { get; set; } = default!;
 
     public int AttrType { get; set; }
 
-    public string DataSource { get; set; }
+    public string DataSource { get; set; } = default!;
 }

@@ -2,7 +2,7 @@
 
 namespace Reservation.Frontend.Pages;
 
-public class Index : PageModel
+public class _ReservationCompleted : PageModel
 {
     public void OnGet()
     {

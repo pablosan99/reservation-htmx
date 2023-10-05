@@ -1,0 +1,7 @@
+﻿@model Reservation.Frontend.Models.TyreChangeReservationFormModel
+
+@Html.LabelFor(x => x.CarType, new {@class = "form-label"})
+<select asp-for="CarType"
+        asp-items="Model.CarTypes"
+        class="form-select">
+</select>

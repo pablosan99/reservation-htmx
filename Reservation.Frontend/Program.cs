@@ -1,15 +1,17 @@
 using Lib.AspNetCore.ServerSentEvents;
 using Reservation.Backend;
 using Reservation.Frontend.Background;
+using Reservation.Frontend.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<ApiClientOptions>(builder.Configuration.GetSection("ApiClient"));
 builder.Services.ReservationModule();
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.AddControllersWithViews();
 builder.Services.AddServerSentEvents();
 builder.Services.AddHostedService<ServerSentEventsWorker>();
+builder.Services.AddScoped<ModelBuilder>();
 
 var app = builder.Build();
 
@@ -23,13 +25,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.MapGroup("/api/reservation").WithTags("Reservations")
-    .MapGet("/reservation-date/{locationId}", async (int locationId, HttpContext context, ApiClient client) =>
-    {
-    });
 app.UseRouting();
 app.UseAuthorization();
 app.MapServerSentEvents("/rn-updates");
-app.MapRazorPages();
-
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=ReservationForm}/{action=Index}/{id?}");
 app.Run();
