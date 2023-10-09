@@ -1,3 +1,17 @@
-﻿@model string
+﻿@model Reservation.Backend.Models.Location
 
-<h2>@Model</h2> from view component
+@{
+    var location = "https://auto1.com.pl/Media/Default/Auto1/189875_310037859109368_1236917638_n.jpg";
+    var location3 = "https://auto1.com.pl/Media/Default/Auto1/542849_310037865776034_1247828787_n.jpg";
+    if (Model.Id == 3)
+    {
+        location = location3;
+    }
+} 
+
+<div class="d-flex justify-content-center flex-column">
+    <div>@Model.Name</div>
+    <img src="@location"
+         class="img-fluid"
+         alt="Auto1"/>
+</div>

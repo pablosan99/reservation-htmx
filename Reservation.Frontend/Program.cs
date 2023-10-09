@@ -8,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<ApiClientOptions>(builder.Configuration.GetSection("ApiClient"));
 builder.Services.ReservationModule();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorOptions(options =>
+{
+    options.ViewLocationFormats.Add("/{0}.cshtml");
+});
 builder.Services.AddServerSentEvents();
 builder.Services.AddHostedService<ServerSentEventsWorker>();
 builder.Services.AddScoped<DataFormProvider>();
