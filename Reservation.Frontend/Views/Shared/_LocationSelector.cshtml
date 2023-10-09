@@ -12,7 +12,7 @@
         hx-action="LocationChanged"
         disabled="@isDisabled"
         hx-target="#date-and-time"
-        hx-swap="innerHTML">
+        hx-swap="outerHTML">
 </select>
 @{
     if (Model is {IsPost: true,Location: 0})

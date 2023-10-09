@@ -5,15 +5,15 @@ using Reservation.Frontend.Models;
 
 namespace Reservation.Frontend.Pages;
 
-public class ModelBuilder
+public class DataFormProvider
 {
     private const string DateFormat = "yyyy-MM-dd";
-    private const string StartTime = "540";
+    public const string NoFreeReservationIdx = "0";
     public static string NoFreeReservations = "Brak wolnych rezerwacji";
 
     private readonly ApiClient client;
 
-    public ModelBuilder(ApiClient client)
+    public DataFormProvider(ApiClient client)
     {
         this.client = client;
     }
@@ -87,7 +87,7 @@ public class ModelBuilder
         {
             items = new List<SelectListItem>
             {
-                new() {Value = StartTime, Text = NoFreeReservations, Selected = true}
+                new() {Value = NoFreeReservationIdx, Text = NoFreeReservations, Selected = true}
             };
         }
 

@@ -11,7 +11,7 @@ builder.Services.ReservationModule();
 builder.Services.AddControllersWithViews();
 builder.Services.AddServerSentEvents();
 builder.Services.AddHostedService<ServerSentEventsWorker>();
-builder.Services.AddScoped<ModelBuilder>();
+builder.Services.AddScoped<DataFormProvider>();
 
 var app = builder.Build();
 

@@ -8,3 +8,14 @@
         @{ await Html.RenderPartialAsync("_TyreChangeReservationTime", Model); }
     </div>
 </div>
+
+<!-- Out off band-->
+@if (Model.Location is not null)
+{
+    <div id="location-map" hx-swap-oob="true">
+        <div>@Model.Location</div>
+        <div>
+            @await Component.InvokeAsync("ReservationDate", new {type = "Just testing"})
+        </div>
+    </div>
+}

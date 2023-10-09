@@ -11,18 +11,19 @@ public class ReservationFormController : Controller
     private const string ReservationDate = "_ReservationDate";
     private const string TyreChangeReservationDate = "_TyreChangeReservationDate";
     private const string TyreChangeReservationTime = "_TyreChangeReservationTime";
+    private const string HtmxEventDataName = "form-event-data";
 
-    private readonly ModelBuilder _modelBuilder;
+    private readonly DataFormProvider _dataFormProvider;
 
-    public ReservationFormController(ModelBuilder modelBuilder)
+    public ReservationFormController(DataFormProvider dataFormProvider)
     {
-        _modelBuilder = modelBuilder;
+        _dataFormProvider = dataFormProvider;
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var possibleLocations = await _modelBuilder.GetLocationsAsync();
+        var possibleLocations = await _dataFormProvider.GetLocationsAsync();
         possibleLocations.Insert(0, new SelectListItem("Dostępne lokalizacje", "0")
         {
             Disabled = true,
@@ -38,21 +39,22 @@ public class ReservationFormController : Controller
     [HttpGet]
     public async Task<IActionResult> LocationChanged([FromQuery] int location)
     {
-        var possibleDates = await _modelBuilder.GetPossibleDatesAsync(location);
+        var possibleDates = await _dataFormProvider.GetPossibleDatesAsync(location);
         DateOnly.TryParse(possibleDates[0].Value, out var reservationDate);
-        var possibleHours = await _modelBuilder.GetPossibleHoursAsync(reservationDate, null, location);
+        var possibleHours = await _dataFormProvider.GetPossibleHoursAsync(reservationDate, null, location);
 
         Response.Htmx(htmx =>
         {
-            htmx.WithTrigger("locationChanged", null, HtmxTriggerTiming.AfterSwap);
-            htmx.WithTrigger("datesLoaded", null, HtmxTriggerTiming.AfterSwap);
+            htmx.WithTrigger(HtmxEventDataName, 
+                new { hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)});
         });
-        
+
         var model = new TyreChangeReservationFormModel()
         {
             PossibleDates = possibleDates,
             ReservationDate = reservationDate,
-            PossibleHours = possibleHours
+            PossibleHours = possibleHours,
+            Location = location
         };
 
         return PartialView(ReservationDate, model);
@@ -61,9 +63,13 @@ public class ReservationFormController : Controller
     [HttpGet]
     public async Task<IActionResult> TimeSlots(DateOnly reservationDate, int location, int? reservationTime = null)
     {
-        var possibleHours = await _modelBuilder.GetPossibleHoursAsync(reservationDate, reservationTime, location);
+        var possibleHours = await _dataFormProvider.GetPossibleHoursAsync(reservationDate, reservationTime, location);
+        Response.Htmx(htmx =>
+        {
+            htmx.WithTrigger(HtmxEventDataName, 
+                new { hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)});
+        });
         
-        Response.Htmx(htmx => { htmx.WithTrigger("allowSubmit"); });
         return PartialView(TyreChangeReservationTime, new TyreChangeReservationFormModel()
         {
             PossibleHours = possibleHours
@@ -74,22 +80,27 @@ public class ReservationFormController : Controller
     [HttpPost]
     public async Task<IActionResult> OnPostSubmit(TyreChangeReservationFormModel model)
     {
+        await Task.Delay(2000);
         if (!ModelState.IsValid)
         {
-            var possibleLocations = await _modelBuilder.GetLocationsAsync();
+            var possibleLocations = await _dataFormProvider.GetLocationsAsync();
             possibleLocations.Insert(0, new SelectListItem("Dostępne lokalizacje", "0")
             {
                 Disabled = true,
                 Selected = model.Location is 0
             });
-            var possibleDates = await _modelBuilder.GetPossibleDatesAsync(model.Location.Value);
-            var possibleHours = await _modelBuilder.GetPossibleHoursAsync(model.ReservationDate.Value, model.ReservationTime, model.Location.Value);
-            
+            var possibleDates = await _dataFormProvider.GetPossibleDatesAsync(model.Location.Value);
+            var possibleHours = await _dataFormProvider.GetPossibleHoursAsync(model.ReservationDate.Value, model.ReservationTime, model.Location.Value);
+
             model.PossibleLocations = possibleLocations;
             model.PossibleDates = possibleDates;
             model.PossibleHours = possibleHours;
             model.IsPost = true;
-            Response.Htmx(htmx => { htmx.WithTrigger("allowSubmit"); });
+            Response.Htmx(htmx =>
+            {
+                htmx.WithTrigger(HtmxEventDataName, 
+                    new { hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)}, HtmxTriggerTiming.AfterSwap);
+            });
             return PartialView("_TyreChangeForm", model);
         }
 
@@ -105,7 +116,7 @@ public class ReservationFormController : Controller
             OrderType = model.OrderType,
             WheelType = model.WheelType
         };
-        var response = await _modelBuilder.SaveAsync(requestModel);
+        var response = await _dataFormProvider.SaveAsync(requestModel);
         return PartialView("_ReservationCompleted", response);
     }
 }

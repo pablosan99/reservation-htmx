@@ -5,33 +5,32 @@
       hx-action="OnPostSubmit"
       hx-target="#reservationForm"
       hx-swap="innerHTML"
-      hx-indicator="#loading-indicator"
       class="form-container needs-validation"
       novalidate
       _="on htmx:beforeSend set #reservationFormBtn.disabled to 'disabled'">
-    <div class="row">
+    <div>
         @{ await Html.RenderPartialAsync("_LocationSelector", Model); }
     </div>
-   
+
     @{ await Html.RenderPartialAsync("_ReservationDate", Model); }
 
     <div class="row justify-content-center">
-        <div class="row">
+        <div>
             @{ await Html.RenderPartialAsync("_CarModel", Model); }
         </div>
-        <div class="row">
+        <div>
             @{ await Html.RenderPartialAsync("_CarNumber", Model); }
         </div>
-        <div class="row">
+        <div>
             @{ await Html.RenderPartialAsync("_CarTypeSelector", Model); }
         </div>
-        <div class="row">
+        <div>
             @{ await Html.RenderPartialAsync("_WheelTypeSelector", Model); }
         </div>
-        <div class="row">
+        <div>
             @{ await Html.RenderPartialAsync("_OrderTypeSelector", Model); }
         </div>
-        <div class="row mb-3">
+        <div class="mb-3">
             @{ await Html.RenderPartialAsync("_DepositNumber", Model); }
         </div>
 
@@ -47,3 +46,4 @@
         </div>
     </div>
 </form>
+
