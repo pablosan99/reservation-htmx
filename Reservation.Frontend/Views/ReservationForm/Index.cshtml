@@ -4,6 +4,10 @@
     <div class="h4 text-center">Rezerwacja online na wymianę opon lub usługę klimatyzacji</div>
 </markdown>
 
+
+<div class="error-toast">
+    @{ Html.RenderPartial("_Toast"); }
+</div>
 <div class="page-content">
     <div class="left-panel" id="reservationForm">
         @{ await Html.RenderPartialAsync("_TyreChangeForm", Model); }
@@ -12,8 +16,4 @@
         <div id="location-map">
         </div>
     </div>
-</div>
-
-<div class="error-toast">
-    @{ Html.RenderPartial("_Toast"); }
 </div>

@@ -94,5 +94,14 @@ namespace Reservation.Frontend.Resources {
                 return ResourceManager.GetString("ReservationCanDoneBasedOnRule", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ups wystąpił błąd w aplikacji.
+        /// </summary>
+        public static string UnknownErrorCode {
+            get {
+                return ResourceManager.GetString("UnknownErrorCode", resourceCulture);
+            }
+        }
     }
 }

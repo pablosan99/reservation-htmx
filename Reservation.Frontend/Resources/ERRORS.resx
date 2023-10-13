@@ -30,4 +30,8 @@
     <data name="DayCannotBeOff" xml:space="preserve">
         <value>Brak możliwości dokonania rezerwacji w dzień wolny</value>
     </data>
+    <data name="UnknownErrorCode" xml:space="preserve">
+        <value>Ups wystąpił błąd w aplikacji</value>
+    </data>
+    
 </root>
