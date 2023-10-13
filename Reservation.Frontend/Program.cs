@@ -30,6 +30,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
+app.UseMiddleware<BusinessExceptionMiddleware>();
+
 app.MapServerSentEvents("/rn-updates");
 app.MapControllerRoute(
     name: "default",

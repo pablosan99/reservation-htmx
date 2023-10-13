@@ -36,6 +36,10 @@
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>LABELS.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Resources\ERRORS.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>ERRORS.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -43,6 +47,11 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>LABELS.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\ERRORS.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ERRORS.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 

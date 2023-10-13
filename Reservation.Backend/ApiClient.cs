@@ -70,10 +70,44 @@ public class ApiClient
         var response = await _httpClient.PostAsync("general/reservation/register_tyre_change", JsonContent.Create(request), token);
         if (!response.IsSuccessStatusCode)
         {
-            return new WebReservationResponse();
+            var errorMessage = await response.Content.ReadAsStringAsync(token);
+            var error = JsonSerializer.Deserialize<BusinessError>(errorMessage);
+            ThrowBusinessException(error);
         }
         var content = await response.Content.ReadAsStreamAsync(token);
         var result =  await JsonSerializer.DeserializeAsync<WebReservationResponse>(content, WebJsonSerializerOptions, cancellationToken: token);
         return result ?? new WebReservationResponse();
     }
+
+    private static void ThrowBusinessException(BusinessError? error)
+    {
+        if (error.items is not null && error.items.Count > 0)
+        {
+            var code = error.items[0].code;
+            if (code is not null)
+            {
+                code = code.Remove(code.Length - 2);
+                throw new BusinessException(code);
+            }
+        }
+
+        throw new BusinessException("UnknownErrorCode");
+    }
 }
+
+public class BusinessException : Exception
+{
+    public string Error { get; }
+
+    public BusinessException(string error)
+    {
+        Error = error;
+    }
+}
+
+public class BusinessError
+{
+    public List<BusinessErrorItem> items { get; set; }
+}
+
+public record BusinessErrorItem(string code, string description, BusinessErrorItem[] InnerErrors);

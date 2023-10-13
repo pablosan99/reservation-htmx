@@ -80,7 +80,7 @@ public class ReservationFormController : Controller
     [HttpPost]
     public async Task<IActionResult> OnPostSubmit(TyreChangeReservationFormModel model)
     {
-        await Task.Delay(2000);
+        await Task.Delay(1000);
         if (!ModelState.IsValid)
         {
             var possibleLocations = await _dataFormProvider.GetLocationsAsync();
