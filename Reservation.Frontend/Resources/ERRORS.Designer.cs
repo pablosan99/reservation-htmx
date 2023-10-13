@@ -89,9 +89,18 @@ namespace Reservation.Frontend.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Brak możliwości dokonania rezrwacji w wybranej godzinie.
         /// </summary>
-        public static string ReservationCanDoneBasedOnRule {
+        public static string ReservationCanDoneBasedOnRules {
             get {
-                return ResourceManager.GetString("ReservationCanDoneBasedOnRule", resourceCulture);
+                return ResourceManager.GetString("ReservationCanDoneBasedOnRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rezerwacja z depozytem można dokonać z 2 dniowym wyprzedzeniem.
+        /// </summary>
+        public static string ReservationWithDepositCanBeDoneInTwoDaysAheadForWebsiteChannel {
+            get {
+                return ResourceManager.GetString("ReservationWithDepositCanBeDoneInTwoDaysAheadForWebsiteChannel", resourceCulture);
             }
         }
         

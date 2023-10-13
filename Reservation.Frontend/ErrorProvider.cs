@@ -5,7 +5,14 @@ namespace Reservation.Frontend.Pages;
 
 public class ErrorProvider
 {
+    private readonly ILogger<ErrorProvider> _logger;
     private const string UnknownError = "UnknownErrorCode";
+
+    public ErrorProvider(ILogger<ErrorProvider> logger)
+    {
+        _logger = logger;
+    }
+    
     public string GetMessage(BusinessException ex)
     {
         var errorMessage = ERRORS.ResourceManager.GetString(UnknownError);
@@ -14,7 +21,7 @@ public class ErrorProvider
         {
             errorMessage = message;
         }
-
+        _logger.LogError("Business exception {Code} / {Message}", ex.Error, errorMessage);
         return errorMessage;
     }
 

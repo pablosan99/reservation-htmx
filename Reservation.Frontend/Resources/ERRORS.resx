@@ -18,7 +18,7 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="ReservationCanDoneBasedOnRule" xml:space="preserve">
+    <data name="ReservationCanDoneBasedOnRules" xml:space="preserve">
         <value>Brak możliwości dokonania rezrwacji w wybranej godzinie</value>
     </data>
     <data name="ReservationCanBeDoneFromNineToNineteen" xml:space="preserve">
@@ -32,6 +32,9 @@
     </data>
     <data name="UnknownErrorCode" xml:space="preserve">
         <value>Ups wystąpił błąd w aplikacji</value>
+    </data>
+    <data name="ReservationWithDepositCanBeDoneInTwoDaysAheadForWebsiteChannel" xml:space="preserve">
+        <value>Rezerwacja z depozytem można dokonać z 2 dniowym wyprzedzeniem</value>
     </data>
     
 </root>

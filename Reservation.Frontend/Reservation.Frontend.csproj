@@ -13,6 +13,10 @@
         <PackageReference Include="Htmx.TagHelpers" Version="1.3.1" />
         <PackageReference Include="Lib.AspNetCore.ServerSentEvents" Version="8.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.11" />
+        <PackageReference Include="Serilog" Version="3.0.1" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+        <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
         <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.12.0" />
     </ItemGroup>
 

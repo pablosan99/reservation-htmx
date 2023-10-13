@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Json;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Reservation.Backend.Models;
 using Attribute = Reservation.Backend.Models.Attribute;
@@ -10,10 +11,12 @@ public class ApiClient
 {
     private static readonly JsonSerializerOptions WebJsonSerializerOptions = new(JsonSerializerDefaults.Web);
     private readonly HttpClient _httpClient;
+    private readonly ILogger<ApiClient> _logger;
 
-    public ApiClient(HttpClient httpClient, IOptions<ApiClientOptions> options)
+    public ApiClient(HttpClient httpClient, IOptions<ApiClientOptions> options, ILogger<ApiClient> logger)
     {
         _httpClient = httpClient;
+        _logger = logger;
         _httpClient.BaseAddress = new Uri($"{options.Value.HostUrl}/api/");
     }
 
@@ -71,6 +74,7 @@ public class ApiClient
         if (!response.IsSuccessStatusCode)
         {
             var errorMessage = await response.Content.ReadAsStringAsync(token);
+            _logger.LogDebug("Error message: {ErrorMessage}", errorMessage);
             var error = JsonSerializer.Deserialize<BusinessError>(errorMessage);
             ThrowBusinessException(error);
         }
@@ -79,14 +83,15 @@ public class ApiClient
         return result ?? new WebReservationResponse();
     }
 
-    private static void ThrowBusinessException(BusinessError? error)
+    private void ThrowBusinessException(BusinessError? error)
     {
         if (error.items is not null && error.items.Count > 0)
         {
             var code = error.items[0].code;
+            _logger.LogInformation("Code: {Code}", code);
             if (code is not null)
             {
-                code = code.Remove(code.Length - 2);
+                code = code.Remove(code.Length - 1);
                 throw new BusinessException(code);
             }
         }

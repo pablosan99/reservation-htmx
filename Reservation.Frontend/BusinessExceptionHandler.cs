@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Htmx;
 using Reservation.Backend;
+using ILogger = Serilog.ILogger;
 
 namespace Reservation.Frontend.Pages;
 
