@@ -12,6 +12,7 @@ public class ReservationFormController : Controller
     private const string TyreChangeReservationDate = "_TyreChangeReservationDate";
     private const string TyreChangeReservationTime = "_TyreChangeReservationTime";
     private const string HtmxEventDataName = "form-event-data";
+    private const string AvailableLocalizations = "Dostępne lokalizacje";
 
     private readonly DataFormProvider _dataFormProvider;
 
@@ -24,7 +25,7 @@ public class ReservationFormController : Controller
     public async Task<IActionResult> Index()
     {
         var possibleLocations = await _dataFormProvider.GetLocationsAsync();
-        possibleLocations.Insert(0, new SelectListItem("Dostępne lokalizacje", "0")
+        possibleLocations.Insert(0, new SelectListItem(AvailableLocalizations, "0")
         {
             Disabled = true,
             Selected = true
@@ -83,7 +84,7 @@ public class ReservationFormController : Controller
         if (!ModelState.IsValid)
         {
             var possibleLocations = await _dataFormProvider.GetLocationsAsync();
-            possibleLocations.Insert(0, new SelectListItem("Dostępne lokalizacje", "0")
+            possibleLocations.Insert(0, new SelectListItem(AvailableLocalizations, "0")
             {
                 Disabled = true,
                 Selected = model.Location is 0
@@ -95,6 +96,7 @@ public class ReservationFormController : Controller
             model.PossibleDates = possibleDates;
             model.PossibleHours = possibleHours;
             model.IsPost = true;
+            
             Response.Htmx(htmx =>
             {
                 htmx.WithTrigger(HtmxEventDataName, 
