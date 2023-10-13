@@ -15,6 +15,7 @@ builder.Services.AddControllersWithViews().AddRazorOptions(options =>
 builder.Services.AddServerSentEvents();
 builder.Services.AddHostedService<ServerSentEventsWorker>();
 builder.Services.AddScoped<DataFormProvider>();
+builder.Services.AddTransient<ErrorProvider>();
 
 var app = builder.Build();
 

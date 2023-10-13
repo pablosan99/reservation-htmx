@@ -2,17 +2,18 @@
 using System.Text.Json;
 using Htmx;
 using Reservation.Backend;
-using Reservation.Frontend.Resources;
 
 namespace Reservation.Frontend.Pages;
 
 public class BusinessExceptionMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ErrorProvider _errorProvider;
 
-    public BusinessExceptionMiddleware(RequestDelegate next)
+    public BusinessExceptionMiddleware(RequestDelegate next, ErrorProvider errorProvider)
     {
         _next = next;
+        _errorProvider = errorProvider;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -25,32 +26,16 @@ public class BusinessExceptionMiddleware
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = 400;
-            var message = PrepareErrorResponseMessage(ex);
+            var message = _errorProvider.GetMessage(ex);
             context.Response.Headers.Add(HtmxResponseHeaders.Keys.Trigger, JsonSerializer.Serialize(new { exception = message}));
         }
-        catch (Exception ex)
+        catch (Exception _)
         {
-            await HandleExceptionAsync(HttpStatusCode.InternalServerError, context, ex);
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+
+            var message = _errorProvider.GetDefaultMessage();            
+            context.Response.Headers.Add(HtmxResponseHeaders.Keys.Trigger, JsonSerializer.Serialize(new { exception = message}));
         }
-    }
-
-    private static string PrepareErrorResponseMessage(BusinessException ex)
-    {
-        var errorMessage = ERRORS.ResourceManager.GetString("UnknownErrorCode");
-        var _message = ERRORS.ResourceManager.GetString(ex.Error);
-        if (_message is not null)
-        {
-            errorMessage = _message;
-        }
-
-        return errorMessage;
-    }
-
-    private static Task HandleExceptionAsync(HttpStatusCode statusCode, HttpContext context, Exception exception)
-    {
-        context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int) statusCode;
-
-        return context.Response.WriteAsync(exception.Message);
     }
 }
