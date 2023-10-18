@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Htmx;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Reservation.Backend.Models;
 using Reservation.Frontend.Models;
+using Reservation.Frontend.Pages.Hubs;
 
 namespace Reservation.Frontend.Pages.Controllers;
 
@@ -15,10 +17,12 @@ public class ReservationFormController : Controller
     private const string AvailableLocalizations = "Dostępne lokalizacje";
 
     private readonly DataFormProvider _dataFormProvider;
+    private readonly IHubContext<ReservationHub> _hubContext;
 
-    public ReservationFormController(DataFormProvider dataFormProvider)
+    public ReservationFormController(DataFormProvider dataFormProvider, IHubContext<ReservationHub> hubContext)
     {
         _dataFormProvider = dataFormProvider;
+        _hubContext = hubContext;
     }
 
     [HttpGet]
@@ -46,8 +50,8 @@ public class ReservationFormController : Controller
 
         Response.Htmx(htmx =>
         {
-            htmx.WithTrigger(HtmxEventDataName, 
-                new { hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)});
+            htmx.WithTrigger(HtmxEventDataName,
+                new {hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)});
         });
 
         var model = new TyreChangeReservationFormModel()
@@ -67,10 +71,10 @@ public class ReservationFormController : Controller
         var possibleHours = await _dataFormProvider.GetPossibleHoursAsync(reservationDate, reservationTime, location);
         Response.Htmx(htmx =>
         {
-            htmx.WithTrigger(HtmxEventDataName, 
-                new { hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)});
+            htmx.WithTrigger(HtmxEventDataName,
+                new {hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)});
         });
-        
+
         return PartialView(TyreChangeReservationTime, new TyreChangeReservationFormModel()
         {
             PossibleHours = possibleHours
@@ -96,11 +100,11 @@ public class ReservationFormController : Controller
             model.PossibleDates = possibleDates;
             model.PossibleHours = possibleHours;
             model.IsPost = true;
-            
+
             Response.Htmx(htmx =>
             {
-                htmx.WithTrigger(HtmxEventDataName, 
-                    new { hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)}, HtmxTriggerTiming.AfterSwap);
+                htmx.WithTrigger(HtmxEventDataName,
+                    new {hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)}, HtmxTriggerTiming.AfterSwap);
             });
             return PartialView("_TyreChangeForm", model);
         }
@@ -118,6 +122,12 @@ public class ReservationFormController : Controller
             WheelType = model.WheelType
         };
         var response = await _dataFormProvider.SaveAsync(requestModel);
+        _hubContext.Clients.All.SendAsync("InformAboutReservation", new ReservationInfo
+        {
+            Id = response.ReservationId,
+            Date = response.ReservationDate,
+            LocationName = response.Location
+        });
         return PartialView("_ReservationCompleted", response);
     }
 }

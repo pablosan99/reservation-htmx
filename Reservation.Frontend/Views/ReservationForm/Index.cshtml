@@ -13,7 +13,12 @@
         @{ await Html.RenderPartialAsync("_TyreChangeForm", Model); }
     </div>
     <div class="right-panel">
+        @* Htmx out of band     *@
         <div id="location-map">
+        </div>
+        @* Htmx ws *@
+        <div>
+            @{ Html.Partial("_ActionBoard");}
         </div>
     </div>
 </div>

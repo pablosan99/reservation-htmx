@@ -2,6 +2,7 @@ using Lib.AspNetCore.ServerSentEvents;
 using Reservation.Backend;
 using Reservation.Frontend.Background;
 using Reservation.Frontend.Pages;
+using Reservation.Frontend.Pages.Hubs;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -21,6 +22,7 @@ try
     builder.Services.AddHostedService<ServerSentEventsWorker>();
     builder.Services.AddScoped<DataFormProvider>();
     builder.Services.AddTransient<ErrorProvider>();
+    builder.Services.AddSignalR();
     builder.Host.UseSerilog();
     var app = builder.Build();
 
@@ -39,6 +41,7 @@ try
     app.UseAuthorization();
     app.UseMiddleware<BusinessExceptionMiddleware>();
     app.MapServerSentEvents("/rn-updates");
+    app.MapHub<ReservationHub>("/info");
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=ReservationForm}/{action=Index}/{id?}");

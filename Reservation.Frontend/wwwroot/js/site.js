@@ -31,5 +31,29 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('element', element);
     })
 
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/info")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+    async function start() {
+        try {
+            await connection.start();
+        } catch (err) {
+            console.log(err);
+            setTimeout(start, 5000);
+        }
+    };
+    connection.on("InformAboutReservation", (event) => {
+        console.log('e', event);
+        // const element = document.getElementById("reservation-info");
+        // const div = document.createElement("div");
+        // element.append(`nowa rezerwacja została zarejestrowana`, div);
+    })
+    // connection.onclose(async () => {
+    //     await start();
+    // });
+
+    start();
 })
 
