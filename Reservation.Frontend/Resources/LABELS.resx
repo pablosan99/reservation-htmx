@@ -51,4 +51,7 @@
     <data name="LocationGreaterThan0" xml:space="preserve">
         <value>Pole {0} jest wymagane !!!</value>
     </data>
+    <data name="CarNumber_InvalidLength" xml:space="preserve">
+        <value>Numer rejestracyjny powinien składać się od 5 do 7 znaków.</value>
+    </data>
 </root>

@@ -78,6 +78,15 @@ namespace Reservation.Frontend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Numer rejestracyjny powinien składać się od 5 do 7 znaków..
+        /// </summary>
+        public static string CarNumber_InvalidLength {
+            get {
+                return ResourceManager.GetString("CarNumber_InvalidLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Typ pojazdu.
         /// </summary>
         public static string CarType {

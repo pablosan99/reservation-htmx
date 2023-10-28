@@ -1,6 +1,31 @@
 ﻿@model Reservation.Backend.Models.WebReservationResponse
 
-<div class="row ">Rezerwacja zakończona pomyślanie :)</div>
-<div class="row">@Model.ChangeDate</div>
-<div class="row">@Model.CarModel</div>
-<div class="row">@Model.CarNumber</div>
+<div class="card p-4">
+    <div class="checkmark-wrapper card-img-top">
+        <i class="checkmark">✓</i>
+    </div>
+    <div class="card-body">
+
+        <h1 class="card-text text-center">Dziękujemy za dokonanie rezerwacji</h1>
+        <div class="card-text">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="fw-bold">Data:</span><span> @Model.ReservationDate</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold">Lokalizacja:</span><span> @Model.Location</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold">Samochód:</span><span> @Model.CarModel</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="fw-bold">Numer rej:</span><span> @Model.CarNumber</span>
+                </li>
+            </ul>
+            <div class="mt-5 float-end">
+                <button type="button" class="btn btn-primary" onClick="document.location.reload()">Powrót do rejestracji</button>
+            </div>
+        </div>
+
+    </div>
+</div>

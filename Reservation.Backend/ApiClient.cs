@@ -22,14 +22,22 @@ public class ApiClient
 
     public async Task<List<Location>?> GetLocations(CancellationToken token = default)
     {
-        var response = await _httpClient.GetAsync("general/location/all", token);
-        if (!response.IsSuccessStatusCode)
+        try
         {
+            var response = await _httpClient.GetAsync("general/location/all", token);
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<Location>();
+            }
+
+            var content = await response.Content.ReadAsStringAsync(token);
+            return JsonSerializer.Deserialize<List<Location>>(content, WebJsonSerializerOptions);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Couldn't get locations {Message}\n{Stack}", ex.Message, ex.StackTrace);
             return new List<Location>();
         }
-
-        var content = await response.Content.ReadAsStringAsync(token);
-        return JsonSerializer.Deserialize<List<Location>>(content, WebJsonSerializerOptions);
     }
 
     public async Task<IEnumerable<DayOff>> GetDayOffsForNext30Days(CancellationToken token = default)
@@ -82,7 +90,7 @@ public class ApiClient
         var result =  await JsonSerializer.DeserializeAsync<WebReservationResponse>(content, WebJsonSerializerOptions, cancellationToken: token);
         return result ?? new WebReservationResponse();
     }
-
+    
     private void ThrowBusinessException(BusinessError? error)
     {
         if (error.items is not null && error.items.Count > 0)

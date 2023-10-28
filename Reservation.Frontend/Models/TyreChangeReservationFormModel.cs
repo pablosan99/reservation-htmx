@@ -23,6 +23,7 @@ public class TyreChangeReservationFormModel
 
     [Display(Name = "CarNumber", ResourceType = typeof(LABELS))]
     [Required(ErrorMessageResourceType = typeof(LABELS), ErrorMessageResourceName = "Required")]
+    [StringLength(maximumLength: 7, MinimumLength = 5, ErrorMessageResourceType = typeof(LABELS), ErrorMessageResourceName = "CarNumber_InvalidLength")]
     public string? CarNumber { get; set; }
 
     [Required(ErrorMessageResourceType = typeof(LABELS), ErrorMessageResourceName = "Required")]
@@ -41,9 +42,9 @@ public class TyreChangeReservationFormModel
     [Required(ErrorMessageResourceType = typeof(LABELS), ErrorMessageResourceName = "Required")]
     [Display(Name = "OrderType", ResourceType = typeof(LABELS))]
     public string? OrderType { get; set; }
-    
+
     public bool IsPost { get; set; }
-    
+
     public List<SelectListItem> PossibleLocations = new();
 
     public List<SelectListItem> PossibleDates = new();
