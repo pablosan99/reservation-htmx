@@ -8,18 +8,19 @@ using Reservation.Frontend.Pages.Hubs;
 
 namespace Reservation.Frontend.Pages.Controllers;
 
-public class ReservationFormController : Controller
+public class TyreChangeReservationController : Controller
 {
     private const string ReservationDate = "_ReservationDate";
     private const string TyreChangeReservationDate = "_TyreChangeReservationDate";
     private const string TyreChangeReservationTime = "_TyreChangeReservationTime";
     private const string HtmxEventDataName = "form-event-data";
+    private const string HtmxFormTypeChanged = "form-type-changed";
     private const string AvailableLocalizations = "Dostępne lokalizacje";
 
     private readonly DataFormProvider _dataFormProvider;
     private readonly IHubContext<ReservationHub> _hubContext;
 
-    public ReservationFormController(DataFormProvider dataFormProvider, IHubContext<ReservationHub> hubContext)
+    public TyreChangeReservationController(DataFormProvider dataFormProvider, IHubContext<ReservationHub> hubContext)
     {
         _dataFormProvider = dataFormProvider;
         _hubContext = hubContext;
@@ -38,7 +39,30 @@ public class ReservationFormController : Controller
         {
             PossibleLocations = possibleLocations
         };
+        ViewData["loadFirst"] = true;
         return View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetForm()
+    {
+        var possibleLocations = await _dataFormProvider.GetLocationsAsync();
+        possibleLocations.Insert(0, new SelectListItem(AvailableLocalizations, "0")
+        {
+            Disabled = true,
+            Selected = true
+        });
+        var model = new TyreChangeReservationFormModel
+        {
+            PossibleLocations = possibleLocations
+        };
+        
+        Response.Htmx(htmx =>
+        {
+            htmx.WithTrigger(HtmxFormTypeChanged,
+                new { type = "tyre-change"});
+        });
+        return PartialView("_TyreChangeForm", model);
     }
 
     [HttpGet]

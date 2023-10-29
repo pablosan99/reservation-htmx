@@ -1,36 +1,48 @@
-﻿@model Reservation.Frontend.Models.TyreChangeReservationFormModel
+﻿@using Reservation.Frontend.Models
+@model Reservation.Frontend.Models.TyreChangeReservationFormModel
+
+@{
+    if (ViewData["loadFirst"] is null)
+    {
+        Html.RenderPartial("_MenuNavOob", new MenuNav()
+        {
+            TyreChangeSelected = true,
+            AirconditionSelected = false,
+        });
+    }
+}
 
 <form hx-post
-      hx-controller="ReservationForm"
+      hx-controller="TyreChangeReservation"
       hx-action="OnPostSubmit"
       hx-target="#reservationForm"
       hx-swap="innerHTML"
       class="form-container needs-validation"
       novalidate
       _="on htmx:beforeSend set #reservationFormBtn.disabled to 'disabled'">
-    <div>
+    <div class="mt-2">
         @{ await Html.RenderPartialAsync("_LocationSelector", Model); }
     </div>
 
     @{ await Html.RenderPartialAsync("_ReservationDate", Model); }
 
     <div class="row justify-content-center">
-        <div>
+        <div class="mt-2">
             @{ await Html.RenderPartialAsync("_CarModel", Model); }
         </div>
-        <div>
+        <div class="mt-2">
             @{ await Html.RenderPartialAsync("_CarNumber", Model); }
         </div>
-        <div>
+        <div class="mt-2">
             @{ await Html.RenderPartialAsync("_CarTypeSelector", Model); }
         </div>
-        <div>
+        <div class="mt-2">
             @{ await Html.RenderPartialAsync("_WheelTypeSelector", Model); }
         </div>
-        <div>
+        <div class="mt-2">
             @{ await Html.RenderPartialAsync("_OrderTypeSelector", Model); }
         </div>
-        <div class="mb-3">
+        <div class="mb-3 mt-2">
             @{ await Html.RenderPartialAsync("_DepositNumber", Model); }
         </div>
 
@@ -46,4 +58,3 @@
         </div>
     </div>
 </form>
-

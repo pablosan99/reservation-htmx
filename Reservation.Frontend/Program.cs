@@ -43,7 +43,13 @@ try
     app.MapHub<ReservationHub>("/info");
     app.MapControllerRoute(
         name: "default",
-        pattern: "{controller=ReservationForm}/{action=Index}/{id?}");
+        pattern: "{controller=TyreChangeReservation}/{action=Index}/{id?}");
+    app.MapControllerRoute(
+        name: "tyre-change",
+        pattern: "{TyreChangeReservation}/{action=Index}/{id?}");
+    app.MapControllerRoute(
+        name: "air-condition",
+        pattern: "{AirConditionReservation}/{action=Index}/{id?}");
     app.Run();
 }
 catch (Exception ex)

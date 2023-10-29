@@ -1,0 +1,17 @@
+﻿@model Reservation.Frontend.Models.TyreChangeReservationFormModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="left-panel" id="reservationForm">
+    @{ await Html.RenderPartialAsync("_TyreChangeForm", Model); }
+</div>
+<div class="right-panel">
+    @* Htmx out of band     *@
+    <div id="location-map">
+    </div>
+    @* Htmx ws *@
+    <div>
+        @{ Html.Partial("_ActionBoard"); }
+    </div>
+</div>

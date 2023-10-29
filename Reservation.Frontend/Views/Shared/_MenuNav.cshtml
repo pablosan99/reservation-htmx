@@ -1,0 +1,34 @@
+﻿@model Reservation.Frontend.Models.MenuNav
+@{
+    var tyreChangeIsActive = "";
+    if (Model.TyreChangeSelected)
+    {
+        tyreChangeIsActive = "active";
+    }
+    var airConditionIsActive = "";
+    if (Model.AirconditionSelected)
+    {
+        airConditionIsActive = "active";
+    }
+}
+
+<li class="nav-item">
+    <a href="#" class="nav-link @tyreChangeIsActive"
+       hx-controller="TyreChangeReservation"
+       hx-action="GetForm"
+       hx-get
+       hx-target="#reservationForm"
+       hx-swap="innerHTML">
+        Wymiana opon
+    </a>
+</li>
+<li class="nav-item">
+    <a href="#" class="nav-link @airConditionIsActive"
+       hx-controller="AirConditionReservation"
+       hx-action="GetForm"
+       hx-get
+       hx-target="#reservationForm"
+       hx-swap="innerHTML">
+        Klimatyzacja
+    </a>
+</li>

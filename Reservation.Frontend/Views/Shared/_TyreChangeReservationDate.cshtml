@@ -7,7 +7,7 @@
 <select asp-for="ReservationDate"
         asp-items="Model.PossibleDates"
         hx-get
-        hx-controller="ReservationForm"
+        hx-controller="TyreChangeReservation"
         hx-action="TimeSlots"
         hx-swap="innerHTML"
         hx-include="[name='Location'],[name='ReservationTime']"

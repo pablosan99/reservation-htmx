@@ -1,10 +1,10 @@
 ﻿@model Reservation.Frontend.Models.TyreChangeReservationFormModel
 
 <div id="date-and-time" class="row justify-content-center">
-    <div class="row" id="reservation-date">
+    <div class="row mt-2" id="reservation-date">
         @{ await Html.RenderPartialAsync("_TyreChangeReservationDate", Model); }
     </div>
-    <div class="row" id="reservation-time">
+    <div class="row mt-2" id="reservation-time">
         @{ await Html.RenderPartialAsync("_TyreChangeReservationTime", Model); }
     </div>
 </div>
