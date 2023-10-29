@@ -1,9 +1,10 @@
 ﻿@using Reservation.Frontend.Models
+@model Reservation.Frontend.Models.AirConditionReservationFormModel
 
 @{
     if (ViewData["loadFirst"] is null)
     {
-        Html.RenderPartial("_MenuNavOob", new MenuNav()
+        await Html.RenderPartialAsync("_MenuNavOob", new MenuNav()
         {
             TyreChangeSelected = false,
             AirconditionSelected = true,
@@ -11,8 +12,40 @@
     }
 }
 
-<div>
-    form
-     <div class="mt-2">
+<form hx-post
+      hx-controller="AirConditionReservation"
+      hx-action="OnPostSubmit"
+      hx-target="#reservationForm"
+      hx-swap="innerHTML"
+      class="form-container needs-validation"
+      novalidate
+      _="on htmx:beforeSend set #reservationFormBtn.disabled to 'disabled'">
+    <div class="mt-2">
+        @{ await Html.RenderPartialAsync("_LocationSelector", Model); }
+    </div>
+
+    @{ await Html.RenderPartialAsync("_ReservationDate", Model); }
+
+    <div class="row justify-content-center">
+        <div class="mt-2">
+            @{ await Html.RenderPartialAsync("_CarModel", Model); }
         </div>
-</div>
+        <div class="mt-2">
+            @{ await Html.RenderPartialAsync("_CarNumber", Model); }
+        </div>
+        <div class="mjp-alert-info">
+            Jeżeli chcecie państwo dokonać zakupu filtra kabinowego w naszym serwisie proszę wypełnić poniższe pola.
+        </div>
+
+       <div class="row">
+            <button id="reservationFormBtn" type="submit" class="btn btn-primary" disabled="disabled">
+                <span class="htmx-indicator">
+                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                    <span class="visually-hidden">Loading...</span>
+                </span>
+                Zarejestruj
+            </button>
+            @Html.AntiForgeryToken()
+        </div>
+    </div>
+</form>

@@ -3,7 +3,7 @@
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:element name="root" msdata:IsDataSet="true">
-            
+
         </xsd:element>
     </xsd:schema>
     <resheader name="resmimetype">
@@ -53,5 +53,14 @@
     </data>
     <data name="CarNumber_InvalidLength" xml:space="preserve">
         <value>Numer rejestracyjny powinien składać się od 5 do 7 znaków.</value>
+    </data>
+    <data name="AirConditionReservationModel_ProductionYear" xml:space="preserve">
+         <value>Rok produkcji</value>
+    </data>
+    <data name="AirConditionReservationMode_EngineCapacity" xml:space="preserve">
+        <value>Pojemność silnika</value>
+    </data>
+    <data name="AirConditionReservationMode_EnginePower" xml:space="preserve">
+        <value>Moc silnika</value>
     </data>
 </root>

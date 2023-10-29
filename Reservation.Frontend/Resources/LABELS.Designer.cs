@@ -60,6 +60,33 @@ namespace Reservation.Frontend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pojemność silnika.
+        /// </summary>
+        public static string AirConditionReservationMode_EngineCapacity {
+            get {
+                return ResourceManager.GetString("AirConditionReservationMode_EngineCapacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moc silnika.
+        /// </summary>
+        public static string AirConditionReservationMode_EnginePower {
+            get {
+                return ResourceManager.GetString("AirConditionReservationMode_EnginePower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rok produkcji.
+        /// </summary>
+        public static string AirConditionReservationModel_ProductionYear {
+            get {
+                return ResourceManager.GetString("AirConditionReservationModel_ProductionYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Model samochodu.
         /// </summary>
         public static string CarModel {

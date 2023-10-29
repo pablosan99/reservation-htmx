@@ -1,10 +1,10 @@
 ﻿@using Reservation.Frontend.Models
-@model Reservation.Frontend.Models.TyreChangeReservationFormModel
+@model Reservation.Frontend.Models.TyreChangeReservationReservationFormModel
 
 @{
     if (ViewData["loadFirst"] is null)
     {
-        Html.RenderPartial("_MenuNavOob", new MenuNav()
+        await Html.RenderPartialAsync("_MenuNavOob", new MenuNav()
         {
             TyreChangeSelected = true,
             AirconditionSelected = false,

@@ -1,5 +1,18 @@
 ﻿namespace Reservation.Backend.Models;
 
+public class AirConditionReservation
+{
+    public DateOnly ReservationDate { get; set; } = DateOnly.MinValue;
+    public int ReservationTime { get; set; } = default!;
+    public string DepositNumber { get; set; } = default!;
+    public string CarModel { get; set; } = default!;
+    public string CarNumber { get; set; } = default!;
+    public int Location { get; set; } = default!;
+    public string ProductionYear { get; set; }
+    public string EngineCapacity { get; set; }
+    public string EnginePower { get; set; }
+}
+
 public class TyreChangeReservation
 {
     public DateOnly ReservationDate { get; set; } = DateOnly.MinValue;

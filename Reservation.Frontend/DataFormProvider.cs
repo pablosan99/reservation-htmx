@@ -18,14 +18,6 @@ public class DataFormProvider
         this.client = client;
     }
 
-    public TyreChangeReservationFormModel CreateModelOnGet()
-    {
-        return new TyreChangeReservationFormModel()
-        {
-            
-        };
-    }
-    
     public async Task<List<SelectListItem>> GetLocationsAsync()
     {
         var locations = await this.client.GetLocations();
@@ -68,6 +60,11 @@ public class DataFormProvider
     public async Task<WebReservationResponse> SaveAsync(TyreChangeReservation request)
     {
         return await client.RegisterTyreChange(request);
+    }
+
+    public async Task<WebReservationResponse> SaveAirCondition(AirConditionReservation request)
+    {
+        return await client.RegisterAirCondition(request);
     }
     
     public async Task<List<SelectListItem>> GetPossibleHoursAsync(DateOnly reservationDate, int? reservationTime, int location)

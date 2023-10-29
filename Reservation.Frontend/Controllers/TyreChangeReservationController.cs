@@ -35,7 +35,7 @@ public class TyreChangeReservationController : Controller
             Disabled = true,
             Selected = true
         });
-        var model = new TyreChangeReservationFormModel
+        var model = new TyreChangeReservationReservationFormModel
         {
             PossibleLocations = possibleLocations
         };
@@ -52,7 +52,7 @@ public class TyreChangeReservationController : Controller
             Disabled = true,
             Selected = true
         });
-        var model = new TyreChangeReservationFormModel
+        var model = new TyreChangeReservationReservationFormModel
         {
             PossibleLocations = possibleLocations
         };
@@ -78,7 +78,7 @@ public class TyreChangeReservationController : Controller
                 new {hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)});
         });
 
-        var model = new TyreChangeReservationFormModel()
+        var model = new TyreChangeReservationReservationFormModel()
         {
             PossibleDates = possibleDates,
             ReservationDate = reservationDate,
@@ -99,7 +99,7 @@ public class TyreChangeReservationController : Controller
                 new {hasFreeHours = possibleHours.All(x => x.Value != DataFormProvider.NoFreeReservationIdx)});
         });
 
-        return PartialView(TyreChangeReservationTime, new TyreChangeReservationFormModel()
+        return PartialView(TyreChangeReservationTime, new TyreChangeReservationReservationFormModel()
         {
             PossibleHours = possibleHours
         });
@@ -107,7 +107,7 @@ public class TyreChangeReservationController : Controller
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<IActionResult> OnPostSubmit(TyreChangeReservationFormModel model)
+    public async Task<IActionResult> OnPostSubmit(TyreChangeReservationReservationFormModel model)
     {
         if (!ModelState.IsValid)
         {

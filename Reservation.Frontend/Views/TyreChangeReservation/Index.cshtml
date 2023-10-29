@@ -1,4 +1,4 @@
-﻿@model Reservation.Frontend.Models.TyreChangeReservationFormModel
+﻿@model Reservation.Frontend.Models.TyreChangeReservationReservationFormModel
 @{
     Layout = "_Layout";
 }
@@ -12,6 +12,6 @@
     </div>
     @* Htmx ws *@
     <div>
-        @{ Html.Partial("_ActionBoard"); }
+        @{ await Html.PartialAsync("_ActionBoard"); }
     </div>
 </div>

@@ -16,10 +16,10 @@
             <div class="h4 text-center alert alert-info">Rezerwacja online na wymianę opon lub usługę klimatyzacji</div>
         </markdown>
         <div class="error-toast">
-            @{ Html.RenderPartial("_Toast"); }
+            @{ await Html.RenderPartialAsync("_Toast"); }
         </div>
         <nav id="menu-nav" class="nav nav-tabs justify-content-center">
-            @{ Html.RenderPartial("_MenuNav", new MenuNav()
+            @{ await Html.RenderPartialAsync("_MenuNav", new MenuNav()
                {
                    TyreChangeSelected = true,
                    AirconditionSelected = false,

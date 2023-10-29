@@ -91,6 +91,21 @@ public class ApiClient
         return result ?? new WebReservationResponse();
     }
     
+    public async Task<WebReservationResponse> RegisterAirCondition(AirConditionReservation request, CancellationToken token = default)
+    {
+        var response = await _httpClient.PostAsync("general/reservation/register_clima_service", JsonContent.Create(request), token);
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorMessage = await response.Content.ReadAsStringAsync(token);
+            _logger.LogDebug("Error message: {ErrorMessage}", errorMessage);
+            var error = JsonSerializer.Deserialize<BusinessError>(errorMessage);
+            ThrowBusinessException(error);
+        }
+        var content = await response.Content.ReadAsStreamAsync(token);
+        var result =  await JsonSerializer.DeserializeAsync<WebReservationResponse>(content, WebJsonSerializerOptions, cancellationToken: token);
+        return result ?? new WebReservationResponse();
+    }
+    
     private void ThrowBusinessException(BusinessError? error)
     {
         if (error.items is not null && error.items.Count > 0)
