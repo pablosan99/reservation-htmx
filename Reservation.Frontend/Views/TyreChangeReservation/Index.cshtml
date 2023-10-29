@@ -1,17 +1,27 @@
-﻿@model Reservation.Frontend.Models.TyreChangeReservationReservationFormModel
+﻿@using Reservation.Frontend.Models
+@model Reservation.Frontend.Models.TyreChangeReservationReservationFormModel
 @{
     Layout = "_Layout";
 }
 
-<div class="left-panel" id="reservationForm">
-    @{ await Html.RenderPartialAsync("_TyreChangeForm", Model); }
-</div>
-<div class="right-panel">
-    @* Htmx out of band     *@
-    <div id="location-map">
+<nav id="menu-nav" class="nav nav-tabs justify-content-center">
+    @{ await Html.RenderPartialAsync("_MenuNav", new MenuNav()
+       {
+           TyreChangeSelected = true,
+           AirconditionSelected = false,
+       }); }
+</nav>
+<div class="page-content">
+    <div class="left-panel" id="reservationForm">
+        @{ await Html.RenderPartialAsync("_TyreChangeForm", Model); }
     </div>
-    @* Htmx ws *@
-    <div>
-        @{ await Html.PartialAsync("_ActionBoard"); }
+    <div class="right-panel">
+        @* Htmx out of band     *@
+        <div id="location-map">
+        </div>
+        @* Htmx ws *@
+        <div>
+            @{ await Html.PartialAsync("_ActionBoard"); }
+        </div>
     </div>
 </div>

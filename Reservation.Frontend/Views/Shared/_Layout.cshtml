@@ -18,16 +18,8 @@
         <div class="error-toast">
             @{ await Html.RenderPartialAsync("_Toast"); }
         </div>
-        <nav id="menu-nav" class="nav nav-tabs justify-content-center">
-            @{ await Html.RenderPartialAsync("_MenuNav", new MenuNav()
-               {
-                   TyreChangeSelected = true,
-                   AirconditionSelected = false,
-               }); }
-        </nav>
-        <div class="page-content">
-            @RenderBody()
-        </div>
+
+        @RenderBody()
     </main>
 </div>
 

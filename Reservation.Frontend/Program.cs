@@ -44,9 +44,6 @@ try
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=TyreChangeReservation}/{action=Index}/{id?}");
-    app.MapControllerRoute(
-        name: "air-condition",
-        pattern: "{controller=AirConditionReservation}/{action=Index}/{id?}");
     app.Run();
 }
 catch (Exception ex)

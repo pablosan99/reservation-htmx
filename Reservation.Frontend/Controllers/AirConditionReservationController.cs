@@ -28,7 +28,7 @@ public class AirConditionReservationController : Controller
             Disabled = true,
             Selected = true
         });
-        var model = new TyreChangeReservationReservationFormModel
+        var model = new AirConditionReservationFormModel()
         {
             PossibleLocations = possibleLocations
         };
@@ -95,12 +95,6 @@ public class AirConditionReservationController : Controller
             CarNumber = model.CarNumber!,
         };
          var response = await _dataFormProvider.SaveAirCondition(requestModel);
-        // _hubContext.Clients.All.SendAsync("InformAboutReservation", new ReservationInfo
-        // {
-        //     Id = response.ReservationId,
-        //     Date = response.ReservationDate,
-        //     LocationName = response.Location
-        // });
         return PartialView("_ReservationCompleted", response);
     }
 }

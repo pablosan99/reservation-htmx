@@ -1,6 +1,28 @@
-﻿@{
+﻿@using Reservation.Frontend.Models
+@model Reservation.Frontend.Models.AirConditionReservationFormModel
+
+@{
     Layout = "_Layout";
 }
-<div class="left-panel" id="reservationForm">
-    @{ await Html.RenderPartialAsync("_AirConditionForm"); }
+
+<nav id="menu-nav" class="nav nav-tabs justify-content-center">
+    @{ await Html.RenderPartialAsync("_MenuNav", new MenuNav()
+       {
+           TyreChangeSelected = false,
+           AirconditionSelected = true,
+       }); }
+</nav>
+<div class="page-content">
+    <div class="left-panel" id="reservationForm">
+        @{ await Html.RenderPartialAsync("_AirConditionForm", Model); }
+    </div>
+    <div class="right-panel">
+        @* Htmx out of band     *@
+        <div id="location-map">
+        </div>
+        @* Htmx ws *@
+        <div>
+            @{ await Html.PartialAsync("_ActionBoard"); }
+        </div>
+    </div>
 </div>
